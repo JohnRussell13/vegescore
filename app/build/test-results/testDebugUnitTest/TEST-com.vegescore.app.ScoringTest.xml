@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vegescore.app.ScoringTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-10T18:30:39" hostname="archlinux" time="0.023">
+  <properties/>
+  <testcase name="all formulas return null for empty list" classname="com.vegescore.app.ScoringTest" time="0.018"/>
+  <testcase name="vegan share - half vegan" classname="com.vegescore.app.ScoringTest" time="0.003"/>
+  <testcase name="plant based share - all vegan" classname="com.vegescore.app.ScoringTest" time="0.001"/>
+  <testcase name="vegan share - only meat returns 0" classname="com.vegescore.app.ScoringTest" time="0.0"/>
+  <testcase name="plant based share - empty returns null" classname="com.vegescore.app.ScoringTest" time="0.0"/>
+  <testcase name="plant based share - mixed" classname="com.vegescore.app.ScoringTest" time="0.0"/>
+  <testcase name="weighted - all vegan is 1" classname="com.vegescore.app.ScoringTest" time="0.0"/>
+  <testcase name="weighted - all meat is 0" classname="com.vegescore.app.ScoringTest" time="0.0"/>
+  <testcase name="weighted - vegan dairy meat averages correctly" classname="com.vegescore.app.ScoringTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
