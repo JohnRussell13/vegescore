@@ -47,7 +47,6 @@ fun VegeScoreApp(vm: MainViewModel) {
             pendingUndo = pendingUndo,
             onLog = { vm.logMeal(it) },
             onUndo = { vm.undoLastLog() },
-            onWindowChange = { vm.setTimeWindow(it) },
             onChartSpanChange = { vm.setChartSpan(it) },
             onNavigateHistory = { screen = Screen.HISTORY },
             onNavigateSettings = { screen = Screen.SETTINGS }

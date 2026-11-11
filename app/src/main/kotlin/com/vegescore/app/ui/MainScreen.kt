@@ -1,7 +1,10 @@
 package com.vegescore.app.ui
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
@@ -10,7 +13,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.vegescore.app.data.MealEntry
 import com.vegescore.app.data.MealType
 import com.vegescore.app.scoring.ChartPoint
@@ -30,22 +36,23 @@ fun MainScreen(
     pendingUndo: MealEntry?,
     onLog: (MealType) -> Unit,
     onUndo: () -> Unit,
-    onWindowChange: (TimeWindow) -> Unit,
     onChartSpanChange: (ChartSpan) -> Unit,
     onNavigateHistory: () -> Unit,
     onNavigateSettings: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("VegeScore") },
-                actions = {
-                    IconButton(onClick = onNavigateHistory) { Icon(Icons.Default.History, "History") }
-                    IconButton(onClick = onNavigateSettings) { Icon(Icons.Default.Settings, "Settings") }
-                }
-            )
-        },
-        snackbarHost = {}
+            Column {
+                TopAppBar(
+                    title = { Text("VegeScore") },
+                    actions = {
+                        IconButton(onClick = onNavigateHistory) { Icon(Icons.Default.History, "History") }
+                        IconButton(onClick = onNavigateSettings) { Icon(Icons.Default.Settings, "Settings") }
+                    }
+                )
+                HorizontalDivider(color = DividerColor)
+            }
+        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -59,50 +66,49 @@ fun MainScreen(
 
             ScoreDisplay(
                 score = score,
-                timeWindow = timeWindow,
-                onWindowChange = onWindowChange
-            )
-
-            Text(
-                Formulas.byId(formulaId).displayName,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                caption = "${Formulas.byId(formulaId).displayName} · ${timeWindow.displayName}"
             )
 
             MealButtons(onLog = onLog, modifier = Modifier.fillMaxWidth())
 
             pendingUndo?.let {
-                val label = when (it.type) {
-                    MealType.VEGAN -> "Vegetables"
-                    MealType.DAIRY_EGGS -> "Dairy/Eggs"
-                    MealType.MEAT -> "Meat"
+                val icon = when (it.type) {
+                    MealType.VEGAN -> "🥦"
+                    MealType.DAIRY_EGGS -> "🧀"
+                    MealType.MEAT -> "🥩"
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFF5F5F5), RoundedCornerShape(8.dp))
+                        .padding(start = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Logged: $label", style = MaterialTheme.typography.bodyMedium)
-                    TextButton(onClick = onUndo) { Text("UNDO") }
+                    Text("Logged: $icon", fontSize = 13.sp, color = Color(0xFF333333))
+                    TextButton(onClick = onUndo) { Text("UNDO", fontWeight = FontWeight.Bold) }
                 }
             }
 
-            Spacer(Modifier.height(4.dp))
-
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp)) {
+            OutlinedCard(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.outlinedCardColors(containerColor = Color.White),
+                border = BorderStroke(1.dp, Color(0xFFE8E8E8))
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text("Score history", style = MaterialTheme.typography.titleSmall)
-                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             ChartSpan.entries.forEach { span ->
                                 FilterChip(
                                     selected = span == chartSpan,
                                     onClick = { onChartSpanChange(span) },
-                                    label = { Text(span.displayName, style = MaterialTheme.typography.labelSmall) }
+                                    label = { Text(span.shortName, fontSize = 12.sp) }
                                 )
                             }
                         }

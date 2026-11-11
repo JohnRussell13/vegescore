@@ -5,10 +5,10 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
-enum class ChartSpan(val displayName: String, val days: Int) {
-    TWO_WEEKS("2 weeks", 14),
-    FOUR_MONTHS("4 months", 120),
-    ONE_YEAR("1 year", 365)
+enum class ChartSpan(val displayName: String, val shortName: String, val days: Int) {
+    TWO_WEEKS("2 weeks", "2w", 14),
+    FOUR_MONTHS("4 months", "4m", 120),
+    ONE_YEAR("1 year", "1y", 365)
 }
 
 data class ChartPoint(

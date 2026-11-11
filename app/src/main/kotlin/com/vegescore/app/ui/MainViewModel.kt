@@ -23,7 +23,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         .stateIn(viewModelScope, SharingStarted.Eagerly, FormulaId.PLANT_BASED_SHARE)
 
     val timeWindow: StateFlow<TimeWindow> = prefs.timeWindow
-        .stateIn(viewModelScope, SharingStarted.Eagerly, TimeWindow.DAYS_30)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, TimeWindow.ALL_TIME)
 
     val chartSpan: StateFlow<ChartSpan> = prefs.chartSpan
         .stateIn(viewModelScope, SharingStarted.Eagerly, ChartSpan.TWO_WEEKS)
