@@ -5,26 +5,29 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vegescore.app.scoring.TimeWindow
 import kotlin.math.roundToInt
 
 @Composable
 fun ScoreDisplay(
     score: Double?,
-    timeWindow: TimeWindow,
-    onWindowChange: (TimeWindow) -> Unit,
+    caption: String,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
         if (score == null) {
             Text(
                 text = "no data",
-                fontSize = 48.sp,
+                fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = Color.Gray
             )
         } else {
             val pct = (score * 100).roundToInt()
@@ -40,17 +43,6 @@ fun ScoreDisplay(
                 color = color
             )
         }
-
-        Spacer(Modifier.height(8.dp))
-
-        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            TimeWindow.entries.forEach { w ->
-                FilterChip(
-                    selected = w == timeWindow,
-                    onClick = { onWindowChange(w) },
-                    label = { Text(w.displayName, fontSize = 12.sp) }
-                )
-            }
-        }
+        Text(caption, fontSize = 12.sp, color = Color(0xFF999999))
     }
 }

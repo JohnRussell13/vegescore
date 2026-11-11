@@ -28,7 +28,7 @@ class PreferencesRepository(private val context: Context) {
 
     val timeWindow: Flow<TimeWindow> = context.dataStore.data.map { prefs ->
         prefs[KEY_WINDOW]?.let { runCatching { TimeWindow.valueOf(it) }.getOrNull() }
-            ?: TimeWindow.DAYS_30
+            ?: TimeWindow.ALL_TIME
     }
 
     val chartSpan: Flow<ChartSpan> = context.dataStore.data.map { prefs ->

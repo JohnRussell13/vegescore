@@ -42,7 +42,7 @@ fun LineChart(
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(140.dp)
                 .pointerInput(points) {
                     detectTapGestures { tap ->
                         if (points.isEmpty()) return@detectTapGestures

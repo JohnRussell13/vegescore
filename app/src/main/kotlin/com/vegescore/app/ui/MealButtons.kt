@@ -6,7 +6,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vegescore.app.data.MealType
@@ -16,19 +17,20 @@ fun MealButtons(
     onLog: (MealType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    Row(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        MealButton("🥦 Vegetables", VeganColor, MealType.VEGAN, onLog)
-        MealButton("🧀 Dairy / Eggs", DairyColor, MealType.DAIRY_EGGS, onLog)
-        MealButton("🥩 Meat", MeatColor, MealType.MEAT, onLog)
+        MealButton("🥦", "Log vegetables", VeganColor, MealType.VEGAN, onLog)
+        MealButton("🧀", "Log dairy or eggs", DairyColor, MealType.DAIRY_EGGS, onLog)
+        MealButton("🥩", "Log meat", MeatColor, MealType.MEAT, onLog)
     }
 }
 
 @Composable
-private fun MealButton(
-    label: String,
+private fun RowScope.MealButton(
+    icon: String,
+    description: String,
     color: Color,
     type: MealType,
     onClick: (MealType) -> Unit
@@ -36,11 +38,14 @@ private fun MealButton(
     Button(
         onClick = { onClick(type) },
         modifier = Modifier
-            .fillMaxWidth()
-            .height(72.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = color)
+            .weight(1f)
+            .aspectRatio(1f)
+            .semantics { contentDescription = description },
+        shape = RoundedCornerShape(20.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = color),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
+        contentPadding = PaddingValues(0.dp)
     ) {
-        Text(label, fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
+        Text(icon, fontSize = 40.sp)
     }
 }
